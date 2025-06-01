@@ -6,10 +6,10 @@
 
 # Configuration
 APP_DIR="/home/ubuntu/evan-james"
-GITHUB_REPO="https://github.com/aboerstra/evanjamesofficial"
+GITHUB_REPO="https://github.com/aboerstra/evan-james-project"
 GITHUB_BRANCH="main"
 BACKUP_ENABLED=true
-GITHUB_ZIP_URL="https://github.com/aboerstra/evanjamesofficial/archive/refs/heads/main.zip"
+GITHUB_ZIP_URL="https://github.com/aboerstra/evan-james-project/archive/refs/heads/main.zip"
 USE_ZIP_DOWNLOAD=true  # Set to true to use zip download instead of git clone
 
 echo "=== Starting Evan James Website Deployment ==="
