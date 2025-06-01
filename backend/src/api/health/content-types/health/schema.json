@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "healths",
+  "info": {
+    "singularName": "health",
+    "pluralName": "healths",
+    "displayName": "Health",
+    "description": "Health check endpoint for monitoring system status"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "status": {
+      "type": "string",
+      "default": "ok"
+    }
+  }
+}

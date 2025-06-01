@@ -1,0 +1,81 @@
+{
+  "kind": "collectionType",
+  "collectionName": "albums",
+  "info": {
+    "singularName": "album",
+    "pluralName": "albums",
+    "displayName": "Album",
+    "description": "Full-length album releases"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "releaseDate": {
+      "type": "date",
+      "required": true
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageNotes": {
+      "type": "text",
+      "default": "Ideal cover dimensions: 1000x1000px (square), minimum 800x800px. Format: JPG or PNG. Should be high quality for streaming platforms and web display."
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "tracks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "music.track",
+      "required": true,
+      "min": 1
+    },
+    "streamLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "links.stream-link"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "isSingle": {
+      "type": "boolean",
+      "default": false
+    },
+    "releaseType": {
+      "type": "enumeration",
+      "enum": [
+        "album",
+        "ep",
+        "single",
+        "compilation"
+      ],
+      "default": "album",
+      "required": true
+    },
+    "metaTitle": {
+      "type": "string"
+    },
+    "metaDescription": {
+      "type": "text"
+    }
+  }
+}

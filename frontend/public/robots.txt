@@ -1,0 +1,10 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Block access to admin pages
+User-agent: *
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://evanjamesofficial.com/sitemap.xml 

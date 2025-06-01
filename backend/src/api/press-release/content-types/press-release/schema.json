@@ -1,0 +1,90 @@
+{
+  "kind": "collectionType",
+  "collectionName": "press_releases",
+  "info": {
+    "singularName": "press-release",
+    "pluralName": "press-releases",
+    "displayName": "Press Release",
+    "description": "Press releases and announcements"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "content": {
+      "type": "richtext",
+      "required": true
+    },
+    "excerpt": {
+      "type": "text",
+      "required": true
+    },
+    "releaseDate": {
+      "type": "date",
+      "required": true
+    },
+    "featuredImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageNotes": {
+      "type": "text",
+      "default": "Press release images: 1200x630px (1.91:1 ratio) for social media sharing. Minimum 800x420px. Format: JPG or PNG. Should be professional and newsworthy."
+    },
+    "attachments": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "files",
+        "images"
+      ]
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "music-release",
+        "tour-announcement",
+        "award",
+        "collaboration",
+        "general",
+        "other"
+      ],
+      "default": "general"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "contactInfo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "contact.contact-info"
+    },
+    "tags": {
+      "type": "json",
+      "description": "Tags for categorization and SEO"
+    },
+    "metaTitle": {
+      "type": "string"
+    },
+    "metaDescription": {
+      "type": "text"
+    }
+  }
+} 

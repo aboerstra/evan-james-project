@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_shared_social_links",
+  "info": {
+    "displayName": "Social Links",
+    "description": "Social media links and profiles"
+  },
+  "options": {},
+  "attributes": {
+    "instagram": {
+      "type": "string",
+      "default": "https://instagram.com/evanjames"
+    },
+    "spotify": {
+      "type": "string",
+      "default": "https://open.spotify.com/artist/4PzYKhC14sTJNIHW4OTbxu"
+    },
+    "youtube": {
+      "type": "string",
+      "default": "https://youtube.com/@evanjamesb"
+    },
+    "tiktok": {
+      "type": "string",
+      "default": "https://tiktok.com/@evanjamesmusic"
+    },
+    "appleMusic": {
+      "type": "string",
+      "default": "https://music.apple.com/us/artist/evan-james/id123456789"
+    },
+    "soundcloud": {
+      "type": "string"
+    },
+    "bandcamp": {
+      "type": "string"
+    },
+    "twitter": {
+      "type": "string"
+    },
+    "facebook": {
+      "type": "string"
+    },
+    "linkedin": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    }
+  }
+} 

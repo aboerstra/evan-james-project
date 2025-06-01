@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_links_social_links",
+  "info": {
+    "displayName": "Social Link",
+    "description": "Social media platform links"
+  },
+  "options": {},
+  "attributes": {
+    "platform": {
+      "type": "enumeration",
+      "enum": [
+        "Instagram",
+        "TikTok",
+        "YouTube",
+        "Twitter",
+        "Facebook",
+        "Snapchat",
+        "LinkedIn",
+        "Discord"
+      ],
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

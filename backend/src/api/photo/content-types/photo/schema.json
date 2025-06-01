@@ -1,0 +1,70 @@
+{
+  "kind": "collectionType",
+  "collectionName": "photos",
+  "info": {
+    "singularName": "photo",
+    "pluralName": "photos",
+    "displayName": "Photo",
+    "description": "Photos for the gallery"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageNotes": {
+      "type": "text",
+      "default": "Gallery photos: Ideal dimensions vary by category. Press photos: 2400x1600px (3:2 ratio). Tour photos: 1920x1080px (16:9). Portrait shots: 1200x1600px (3:4). Minimum 800px on shortest side. Format: JPG or PNG. High quality for print and web use."
+    },
+    "caption": {
+      "type": "text"
+    },
+    "altText": {
+      "type": "string"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "press",
+        "tour",
+        "promotional",
+        "personal",
+        "behind the scenes",
+        "other"
+      ],
+      "default": "promotional"
+    },
+    "tags": {
+      "type": "enumeration",
+      "enum": [
+        "portfolio",
+        "hero",
+        "gallery",
+        "press-kit",
+        "social-media",
+        "website",
+        "promotional",
+        "live-performance",
+        "studio",
+        "behind-the-scenes"
+      ],
+      "multiple": true
+    }
+  }
+}

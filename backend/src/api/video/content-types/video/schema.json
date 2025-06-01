@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "videos",
+  "info": {
+    "singularName": "video",
+    "pluralName": "videos",
+    "displayName": "Video",
+    "description": "Music videos and other video content"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "videoUrl": {
+      "type": "string",
+      "required": true
+    },
+    "embedCode": {
+      "type": "text"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageNotes": {
+      "type": "text",
+      "default": "Ideal thumbnail dimensions: 1280x720px (16:9 aspect ratio) for YouTube compatibility. Minimum 640x360px. Format: JPG or PNG. Should be engaging and represent the video content."
+    },
+    "releaseDate": {
+      "type": "date"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "videoType": {
+      "type": "enumeration",
+      "enum": [
+        "music video",
+        "lyric video",
+        "live performance",
+        "behind the scenes",
+        "interview",
+        "other"
+      ],
+      "default": "music video"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    }
+  }
+}

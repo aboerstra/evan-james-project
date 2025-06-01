@@ -1,0 +1,107 @@
+{
+  "kind": "singleType",
+  "collectionName": "press_kits",
+  "info": {
+    "singularName": "press-kit",
+    "pluralName": "press-kits",
+    "displayName": "Press Kit",
+    "description": "Password-protected press materials and media assets"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Evan James Press Kit"
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "password": {
+      "type": "password",
+      "required": true
+    },
+    "lastUpdated": {
+      "type": "datetime",
+      "required": true
+    },
+    "contactInfo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "contact.contact-info",
+      "required": true
+    },
+    "highResPhotos": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageNotes": {
+      "type": "text",
+      "default": "High-resolution press photos: Minimum 2400x1600px (300 DPI). Formats: JPG, PNG, TIFF. Include variety: headshots (800x800px), performance shots (1920x1080px), candid/lifestyle (2400x1600px). All images should be professional quality and suitable for print/digital media use."
+    },
+    "pressReleasePDF": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files"
+      ]
+    },
+    "biographyPDF": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files"
+      ]
+    },
+    "logoFiles": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "musicSamples": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "audios"
+      ]
+    },
+    "videoAssets": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "videos"
+      ]
+    },
+    "additionalAssets": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "downloadInstructions": {
+      "type": "richtext"
+    },
+    "metaTitle": {
+      "type": "string",
+      "default": "Evan James Press Kit - Media Resources"
+    },
+    "metaDescription": {
+      "type": "text"
+    }
+  }
+} 
