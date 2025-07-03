@@ -8,6 +8,10 @@ echo "Starting EC2 fix application process..."
 # Navigate to the project directory
 cd ~/evan-james-project
 
+# Configure Git to trust the repository directory (to handle ownership issues)
+echo "Configuring Git to trust the repository directory..."
+git config --global --add safe.directory /home/ubuntu/evan-james-project
+
 # Pull the latest changes from GitHub
 echo "Pulling latest changes from GitHub..."
 git pull origin main
