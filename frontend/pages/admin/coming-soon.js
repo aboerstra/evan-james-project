@@ -62,6 +62,8 @@ export default function AdminComingSoon() {
     comingSoonShowEmailSignup: true,
     comingSoonEmailSignupText: '',
     comingSoonShowSocialMedia: true,
+    comingSoonShowImage: true,
+    comingSoonSelectedImage: 'default', // 'default', 'custom', or 'none'
     // Site-wide settings
     contactEmail: '',
     contactPhone: '',
@@ -80,6 +82,13 @@ export default function AdminComingSoon() {
         const response = await getSiteSettings();
         if (response && response.data) {
           const data = response.data.attributes;
+          
+          console.log('=== LOADING SETTINGS DEBUG ===');
+          console.log('Image settings from API:', {
+            showImage: data.comingSoonShowImage,
+            selectedImage: data.comingSoonSelectedImage
+          });
+          
           // Store the full response data including ID
           setSettings({
             id: response.data.id,
@@ -92,17 +101,33 @@ export default function AdminComingSoon() {
           }
           
           // Initialize form data with flattened structure
+          const selectedImage = data.comingSoonSelectedImage === 'none' ? 'none' : 
+                               (data.comingSoonSelectedImage === 'custom' ? 'custom' : 'default');
+          
+          console.log('Setting selectedImage to:', selectedImage);
+          console.log('Show image value from API:', data.comingSoonShowImage, 'type:', typeof data.comingSoonShowImage);
+          
+          // Explicitly handle boolean values
+          const showImage = data.comingSoonShowImage === true;
+          const showCountdown = data.comingSoonShowCountdown === true;
+          const showEmailSignup = data.comingSoonShowEmailSignup === true;
+          const showSocialMedia = data.comingSoonShowSocialMedia === true;
+          
+          console.log('Processed show image value:', showImage);
+          
           setFormData({
             comingSoonTitle: data.comingSoonTitle || '',
             comingSoonSubtitle: data.comingSoonSubtitle || '',
             comingSoonDescription: data.comingSoonDescription || '',
-            comingSoonShowCountdown: data.comingSoonShowCountdown !== false,
+            comingSoonShowCountdown: showCountdown,
             comingSoonCountdownDate: data.comingSoonCountdownDate 
               ? moment(data.comingSoonCountdownDate).format('YYYY-MM-DDTHH:mm')
               : '',
-            comingSoonShowEmailSignup: data.comingSoonShowEmailSignup !== false,
+            comingSoonShowEmailSignup: showEmailSignup,
             comingSoonEmailSignupText: data.comingSoonEmailSignupText || '',
-            comingSoonShowSocialMedia: data.comingSoonShowSocialMedia !== false,
+            comingSoonShowSocialMedia: showSocialMedia,
+            comingSoonShowImage: showImage,
+            comingSoonSelectedImage: selectedImage,
             contactEmail: data.contactEmail || '',
             contactPhone: data.contactPhone || '',
             metaTitle: data.metaTitle || '',
@@ -139,11 +164,11 @@ export default function AdminComingSoon() {
   // Handle site status toggle
   const handleSiteStatusChange = async (status) => {
     setSiteStatus(status);
-    
+
     try {
-      await updateSiteStatus(status, 
+      await updateSiteStatus(status,
         status === 'live' && scheduledGoLiveDate ? new Date(scheduledGoLiveDate) : null);
-      
+
       setSuccessMessage(`Site status updated to "${status}"`);
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
@@ -198,6 +223,7 @@ export default function AdminComingSoon() {
     
     try {
       console.log('=== SAVE SETTINGS DEBUG ===');
+      console.log('IMPORTANT: Current selectedImage value:', formData.comingSoonSelectedImage);
       
       // Check authentication in detail
       const token = localStorage.getItem('adminToken');
@@ -225,15 +251,29 @@ export default function AdminComingSoon() {
       console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
       
       console.log('formData:', formData);
+      console.log('Image settings:', {
+        showImage: formData.comingSoonShowImage,
+        selectedImage: formData.comingSoonSelectedImage
+      });
       console.log('siteStatus:', siteStatus);
       console.log('scheduledGoLiveDate:', scheduledGoLiveDate);
+      
+      // Create a separate object for the image settings to ensure they're properly saved
+      const imageSettings = {
+        comingSoonShowImage: formData.comingSoonShowImage,
+        comingSoonSelectedImage: formData.comingSoonSelectedImage
+      };
+      
+      console.log('Image settings being saved:', imageSettings);
       
       // Prepare update data with flattened structure
       const updateData = {
         ...formData,
         siteStatus,
         scheduledGoLiveDate: scheduledGoLiveDate ? new Date(scheduledGoLiveDate).toISOString() : null,
-        comingSoonCountdownDate: formData.comingSoonCountdownDate ? new Date(formData.comingSoonCountdownDate).toISOString() : null
+        comingSoonCountdownDate: formData.comingSoonCountdownDate ? new Date(formData.comingSoonCountdownDate).toISOString() : null,
+        // Explicitly include these values to ensure they're saved
+        ...imageSettings
       };
       
       console.log('updateData prepared:', updateData);
@@ -244,6 +284,16 @@ export default function AdminComingSoon() {
       
       console.log('updateSiteSettings response:', response);
       console.log('=== SAVE SUCCESS ===');
+      
+      // Verify the saved data by fetching it again
+      const verifyResponse = await getSiteSettings();
+      if (verifyResponse && verifyResponse.data) {
+        const savedData = verifyResponse.data.attributes;
+        console.log('VERIFICATION - Image settings after save:', {
+          showImage: savedData.comingSoonShowImage,
+          selectedImage: savedData.comingSoonSelectedImage
+        });
+      }
       
       setSuccessMessage('Settings saved successfully!');
       setTimeout(() => setSuccessMessage(''), 3000);
@@ -270,6 +320,19 @@ export default function AdminComingSoon() {
     }
   };
 
+  // Set a default countdown date (7 days from now)
+  const setDefaultCountdownDate = () => {
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 7); // 7 days from now
+    
+    // Format as YYYY-MM-DDTHH:MM
+    const formattedDate = defaultDate.toISOString().slice(0, 16);
+    
+    handleInputChange('comingSoonCountdownDate', formattedDate);
+    setSuccessMessage('Default countdown date set to 7 days from now');
+    setTimeout(() => setSuccessMessage(''), 3000);
+  };
+  
   // Handle preview
   const handlePreview = () => {
     window.open('/coming-soon', '_blank');
@@ -402,13 +465,64 @@ export default function AdminComingSoon() {
                 <div>
                   <label className="block text-sm font-medium text-ice-blue mb-2">
                     Countdown Target Date
+                    <span className="block text-xs text-electric-blue/70 font-normal mt-1">
+                      Set the date and time for your release
+                    </span>
                   </label>
-                  <input
-                    type="datetime-local"
-                    value={formData.comingSoonCountdownDate}
-                    onChange={(e) => handleInputChange('comingSoonCountdownDate', e.target.value)}
-                    className="w-full p-3 bg-navy/50 border border-electric-blue/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-electric-blue"
-                  />
+                  <div className="relative">
+                    <div className="flex flex-col space-y-3">
+                      <div>
+                        <label className="block text-xs text-ice-blue mb-1">Date:</label>
+                        <input
+                          type="date"
+                          value={formData.comingSoonCountdownDate ? formData.comingSoonCountdownDate.split('T')[0] : ''}
+                          onChange={(e) => {
+                            const currentTime = formData.comingSoonCountdownDate 
+                              ? formData.comingSoonCountdownDate.split('T')[1] 
+                              : '00:00';
+                            const newDate = `${e.target.value}T${currentTime}`;
+                            handleInputChange('comingSoonCountdownDate', newDate);
+                          }}
+                          min={new Date().toISOString().split('T')[0]}
+                          className="w-full p-3 bg-navy/50 border border-electric-blue/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-electric-blue"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-ice-blue mb-1">Time:</label>
+                        <input
+                          type="time"
+                          value={formData.comingSoonCountdownDate ? formData.comingSoonCountdownDate.split('T')[1] : ''}
+                          onChange={(e) => {
+                            const currentDate = formData.comingSoonCountdownDate 
+                              ? formData.comingSoonCountdownDate.split('T')[0] 
+                              : new Date().toISOString().split('T')[0];
+                            const newDate = `${currentDate}T${e.target.value}`;
+                            handleInputChange('comingSoonCountdownDate', newDate);
+                          }}
+                          className="w-full p-3 bg-navy/50 border border-electric-blue/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-electric-blue"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-2 text-xs text-ice-blue/70">
+                      Current countdown date: {formData.comingSoonCountdownDate ? 
+                        new Date(formData.comingSoonCountdownDate).toLocaleString() : 
+                        'Not set'}
+                    </div>
+                    {!formData.comingSoonCountdownDate && (
+                      <div className="mt-1 flex items-center gap-2">
+                        <span className="text-xs text-red-400">
+                          Please set a future date and time for the countdown
+                        </span>
+                        <button
+                          type="button"
+                          onClick={setDefaultCountdownDate}
+                          className="text-xs bg-electric-blue text-white px-2 py-1 rounded hover:bg-electric-blue/80 transition-colors"
+                        >
+                          Set Default (7 days)
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Contact Email */}
@@ -480,6 +594,85 @@ export default function AdminComingSoon() {
                     Show social media links
                   </label>
                 </div>
+
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="showImage"
+                    checked={formData.comingSoonShowImage}
+                    onChange={() => {
+                      handleCheckboxChange('comingSoonShowImage');
+                      console.log('Show image checkbox changed to:', !formData.comingSoonShowImage);
+                    }}
+                    className="mr-3 h-4 w-4 text-electric-blue focus:ring-electric-blue border-gray-300 rounded"
+                  />
+                  <label htmlFor="showImage" className="text-ice-blue">
+                    Show image on coming soon page
+                  </label>
+                </div>
+
+                {formData.comingSoonShowImage && (
+                  <div className="ml-7 mt-2">
+                    <label className="block text-sm font-medium text-ice-blue mb-2">
+                      Select Image to Display
+                    </label>
+                    <div className="flex flex-col space-y-2">
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          id="defaultImage"
+                          name="selectedImage"
+                          value="default"
+                          checked={formData.comingSoonSelectedImage === 'default'}
+                          onChange={() => handleInputChange('comingSoonSelectedImage', 'default')}
+                          className="mr-3 h-4 w-4 text-electric-blue focus:ring-electric-blue border-gray-300"
+                        />
+                        <label htmlFor="defaultImage" className="text-ice-blue">
+                          Default image (tinted blue portrait)
+                        </label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          id="customImage"
+                          name="selectedImage"
+                          value="custom"
+                          checked={formData.comingSoonSelectedImage === 'custom'}
+                          onChange={() => handleInputChange('comingSoonSelectedImage', 'custom')}
+                          className="mr-3 h-4 w-4 text-electric-blue focus:ring-electric-blue border-gray-300"
+                        />
+                        <label htmlFor="customImage" className="text-ice-blue">
+                          Custom uploaded image
+                        </label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          id="noImage"
+                          name="selectedImage"
+                          value="none"
+                          checked={formData.comingSoonSelectedImage === 'none'}
+                          onChange={() => {
+                            // Force the value to be 'none' string
+                            const noneValue = 'none';
+                            handleInputChange('comingSoonSelectedImage', noneValue);
+                            console.log('Selected "No image", value set to:', noneValue, 'type:', typeof noneValue);
+                            
+                            // Update the form data directly to ensure it's set
+                            setFormData(prevData => ({
+                              ...prevData,
+                              comingSoonSelectedImage: noneValue
+                            }));
+                          }}
+                          className="mr-3 h-4 w-4 text-electric-blue focus:ring-electric-blue border-gray-300"
+                        />
+                        <label htmlFor="noImage" className="text-ice-blue">
+                          No image (solid background)
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

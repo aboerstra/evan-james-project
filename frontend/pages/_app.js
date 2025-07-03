@@ -12,6 +12,41 @@ import '../styles/globals.css';
 function EvanJamesApp({ Component, pageProps }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  
+  // Check for coming soon mode
+  useEffect(() => {
+    // Skip redirect for admin routes, coming-soon page, and other special pages
+    if (
+      router.pathname.startsWith('/admin') ||
+      router.pathname === '/coming-soon' ||
+      router.pathname === '/verify-email' ||
+      router.pathname === '/unsubscribe'
+    ) {
+      return;
+    }
+
+    // Fetch site status from API
+    const fetchSiteStatus = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
+        const response = await fetch(`${apiUrl}/api/site-settings`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          const siteStatus = data?.data?.attributes?.siteStatus;
+          
+          // Redirect to coming soon page if site is in coming soon mode
+          if (siteStatus === 'coming-soon' && router.pathname !== '/coming-soon') {
+            router.push('/coming-soon');
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching site status:', error);
+      }
+    };
+    
+    fetchSiteStatus();
+  }, [router.pathname]);
 
   // Simple page transition system
   useEffect(() => {
