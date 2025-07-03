@@ -85,22 +85,57 @@ export default function ComingSoon() {
     setIsSubmitting(true);
     
     try {
-      await subscribeToNewsletter({
+      // Format the timestamp to match the expected format in the backend
+      // Ensure it has milliseconds and ends with Z
+      const now = new Date();
+      const formattedTimestamp = now.toISOString();
+      
+      console.log('Submitting newsletter subscription with data:', {
         email,
-        firstName: '',
-        lastName: '',
         source: 'coming-soon',
-        preferences: ['new-releases'],
-        // Don't set isActive or subscribedAt - these will be set after verification
-        consentGiven: consentGiven,
-        consentTimestamp: new Date().toISOString(),
-        consentSource: 'coming-soon'
+        consentGiven,
+        consentTimestamp: formattedTimestamp
       });
+      
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/newsletter-subscriptions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            email,
+            name: '',
+            source: 'coming-soon',
+            preferences: ['new-releases'],
+            consentGiven: true,
+            consentTimestamp: formattedTimestamp,
+            consentSource: 'coming-soon',
+            subscribedAt: new Date().toISOString() // Set subscribedAt to the current date in ISO format
+          }
+        }),
+      });
+      
+      // Even if we get a 400 response, it might be because the email is already subscribed
+      // or other non-critical reasons, so we'll try to parse the response in all cases
+      const responseData = await response.json();
+      console.log('Newsletter subscription response:', responseData);
+      
+      if (!response.ok && 
+          !responseData.message?.includes('Already subscribed') && 
+          !responseData.message?.includes('check your email')) {
+        throw new Error(responseData.error?.message || 'Failed to subscribe');
+      }
+      
+      // If we get here, either the request was successful or it was a "soft" error
+      // like "Already subscribed" that we want to treat as success
+      
       setSubmitSuccess(true);
       setEmail('');
       setConsentGiven(false); // Reset consent for next submission
     } catch (error) {
       console.error('Error submitting email:', error);
+      alert(`There was an error subscribing to the newsletter: ${error.message || 'Please try again later.'}`);
     } finally {
       setIsSubmitting(false);
     }

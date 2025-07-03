@@ -228,7 +228,7 @@ module.exports = createCoreController('api::newsletter-subscription.newsletter-s
       name: data.name || undefined,
       source: data.source || 'homepage',
       isActive: false, // Not active until verified
-      subscribedAt: null, // Will be set upon verification
+      subscribedAt: new Date().toISOString(), // Set a default value for subscribedAt
       pendingSubscription: true,
       verificationToken: verificationToken,
       verificationExpires: tokenExpiration,
