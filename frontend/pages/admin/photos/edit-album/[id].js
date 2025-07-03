@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -288,4 +289,4 @@ export default function EditAlbumPage() {
       </div>
     </AdminLayout>
   );
-} 
+}

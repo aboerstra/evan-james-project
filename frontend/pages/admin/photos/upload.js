@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -380,4 +381,4 @@ export default function PhotoUploadPage() {
       </div>
     </AdminLayout>
   );
-} 
+}

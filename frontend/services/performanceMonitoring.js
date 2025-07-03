@@ -5,7 +5,7 @@
  * and reporting them to the backend or external monitoring services.
  */
 
-import Sentry from '@sentry/nextjs';
+import * as Sentry from '@sentry/nextjs';
 import logger from './logger';
 
 // Initialize metrics storage

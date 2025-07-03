@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -318,4 +319,4 @@ export default function AlbumDetailPage() {
       )}
     </AdminLayout>
   );
-} 
+}
