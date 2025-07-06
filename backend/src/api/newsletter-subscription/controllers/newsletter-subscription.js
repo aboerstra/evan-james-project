@@ -217,19 +217,25 @@ module.exports = createCoreController('api::newsletter-subscription.newsletter-s
       return { message: 'Already subscribed' };
     }
 
-    // Generate verification token
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    const tokenExpiration = new Date();
-    tokenExpiration.setHours(tokenExpiration.getHours() + 48); // Token valid for 48 hours
+    // Determine if this is a coming-soon/countdown page signup
+    const isComingSoonSignup = data.source === 'coming-soon';
+    
+    // Generate verification token (only needed for non-coming-soon signups)
+    const verificationToken = isComingSoonSignup ? null : crypto.randomBytes(32).toString('hex');
+    const tokenExpiration = isComingSoonSignup ? null : (() => {
+      const expiration = new Date();
+      expiration.setHours(expiration.getHours() + 48); // Token valid for 48 hours
+      return expiration;
+    })();
 
     // Sanitize inputs to prevent XSS
     const sanitizedData = {
       email: data.email,
       name: data.name || undefined,
       source: data.source || 'homepage',
-      isActive: false, // Not active until verified
+      isActive: isComingSoonSignup ? true : false, // Coming-soon signups are immediately active
       subscribedAt: new Date().toISOString(), // Set a default value for subscribedAt
-      pendingSubscription: true,
+      pendingSubscription: isComingSoonSignup ? false : true, // Coming-soon signups don't need verification
       verificationToken: verificationToken,
       verificationExpires: tokenExpiration,
       preferences: data.preferences || ['new-releases'],
@@ -247,48 +253,60 @@ module.exports = createCoreController('api::newsletter-subscription.newsletter-s
     // Call the default create method with the sanitized data
     const response = await super.create(ctx);
     
-    // Send verification email
-    try {
-      const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}&email=${encodeURIComponent(data.email)}`;
-      
-      // Generate unsubscribe token
-      const secret = process.env.UNSUBSCRIBE_SECRET || 'evan-james-newsletter';
-      const unsubscribeToken = crypto
-        .createHash('sha256')
-        .update(`${data.email}:${secret}`)
-        .digest('hex');
-      
-      const unsubscribeUrl = `${process.env.FRONTEND_URL}/unsubscribe?token=${unsubscribeToken}&email=${encodeURIComponent(data.email)}`;
-      
-      await strapi.plugins['email'].services.email.send({
-        to: data.email,
-        subject: 'Verify your subscription to Evan James updates',
-        html: `
-          <p>Thank you for subscribing to updates from Evan James.</p>
-          <p>To complete your subscription, please click the link below:</p>
-          <p><a href="${verificationUrl}">Verify my email address</a></p>
-          <p>This link will expire in 48 hours.</p>
-          <p>If you did not request this subscription, you can safely ignore this email.</p>
-          <hr style="margin-top: 20px; margin-bottom: 20px; border: 0; border-top: 1px solid #eee;">
-          <p style="font-size: 12px; color: #666;">
-            This email was sent to ${data.email}. If you no longer wish to receive emails from us, 
-            you can <a href="${unsubscribeUrl}">unsubscribe here</a>.
-          </p>
-          <p style="font-size: 12px; color: #666;">
-            &copy; ${new Date().getFullYear()} Evan James | All Rights Reserved
-          </p>
-        `
-      });
-    } catch (error) {
-      console.error('Error sending verification email:', error);
-      // We don't want to fail the request if email sending fails
-      // The user can still verify through a resend mechanism
+    // Send verification email (only for non-coming-soon signups)
+    if (!isComingSoonSignup) {
+      try {
+        const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}&email=${encodeURIComponent(data.email)}`;
+        
+        // Generate unsubscribe token
+        const secret = process.env.UNSUBSCRIBE_SECRET || 'evan-james-newsletter';
+        const unsubscribeToken = crypto
+          .createHash('sha256')
+          .update(`${data.email}:${secret}`)
+          .digest('hex');
+        
+        const unsubscribeUrl = `${process.env.FRONTEND_URL}/unsubscribe?token=${unsubscribeToken}&email=${encodeURIComponent(data.email)}`;
+        
+        await strapi.plugins['email'].services.email.send({
+          to: data.email,
+          subject: 'Verify your subscription to Evan James updates',
+          html: `
+            <p>Thank you for subscribing to updates from Evan James.</p>
+            <p>To complete your subscription, please click the link below:</p>
+            <p><a href="${verificationUrl}">Verify my email address</a></p>
+            <p>This link will expire in 48 hours.</p>
+            <p>If you did not request this subscription, you can safely ignore this email.</p>
+            <hr style="margin-top: 20px; margin-bottom: 20px; border: 0; border-top: 1px solid #eee;">
+            <p style="font-size: 12px; color: #666;">
+              This email was sent to ${data.email}. If you no longer wish to receive emails from us, 
+              you can <a href="${unsubscribeUrl}">unsubscribe here</a>.
+            </p>
+            <p style="font-size: 12px; color: #666;">
+              &copy; ${new Date().getFullYear()} Evan James | All Rights Reserved
+            </p>
+          `
+        });
+      } catch (error) {
+        console.error('Error sending verification email:', error);
+        // We don't want to fail the request if email sending fails
+        // The user can still verify through a resend mechanism
+      }
     }
     
-    return {
-      message: 'Please check your email to complete your subscription',
-      verified: false
-    };
+    // Return appropriate message based on signup type
+    if (isComingSoonSignup) {
+      return {
+        message: 'Thank you for subscribing! You\'re now signed up for updates.',
+        verified: true,
+        active: true
+      };
+    } else {
+      return {
+        message: 'Please check your email to complete your subscription',
+        verified: false,
+        active: false
+      };
+    }
   },
 
   // Admin route to test Mautic connection
