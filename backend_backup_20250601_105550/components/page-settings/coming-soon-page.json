@@ -1,0 +1,72 @@
+{
+  "collectionName": "components_page_settings_coming_soon_pages",
+  "info": {
+    "displayName": "Coming Soon Page",
+    "description": "Configure the content for the coming soon page"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Coming Soon"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "We're launching soon"
+    },
+    "description": {
+      "type": "text",
+      "default": "Our new website is on its way. Stay tuned for something amazing."
+    },
+    "backgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "showCountdown": {
+      "type": "boolean",
+      "default": true
+    },
+    "countdownDate": {
+      "type": "datetime"
+    },
+    "customMessage": {
+      "type": "richtext"
+    },
+    "showEmailSignup": {
+      "type": "boolean",
+      "default": true
+    },
+    "emailSignupText": {
+      "type": "string",
+      "default": "Get notified when we launch"
+    },
+    "showSocialMedia": {
+      "type": "boolean",
+      "default": true
+    },
+    "contactEmail": {
+      "type": "email"
+    },
+    "contactPhone": {
+      "type": "string"
+    },
+    "metaTitle": {
+      "type": "string",
+      "default": "Coming Soon - Evan James Official"
+    },
+    "metaDescription": {
+      "type": "text",
+      "default": "Evan James official website coming soon. Stay tuned for updates and new releases."
+    }
+  }
+}

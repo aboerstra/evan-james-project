@@ -1,0 +1,90 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tour_dates",
+  "info": {
+    "singularName": "tour-date",
+    "pluralName": "tour-dates",
+    "displayName": "Tour Date",
+    "description": "Concert and tour date listings"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "eventName": {
+      "type": "string",
+      "required": true
+    },
+    "date": {
+      "type": "datetime",
+      "required": true
+    },
+    "venueName": {
+      "type": "string",
+      "required": true
+    },
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "state": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string",
+      "required": true
+    },
+    "ticketLink": {
+      "type": "string"
+    },
+    "isSoldOut": {
+      "type": "boolean",
+      "default": false
+    },
+    "isAnnounced": {
+      "type": "boolean",
+      "default": true
+    },
+    "isCancelled": {
+      "type": "boolean",
+      "default": false
+    },
+    "venueAddress": {
+      "type": "string"
+    },
+    "venueWebsite": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "otherArtists": {
+      "type": "string"
+    },
+    "venueImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "promotionalImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "eventPoster": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "galleryImages": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

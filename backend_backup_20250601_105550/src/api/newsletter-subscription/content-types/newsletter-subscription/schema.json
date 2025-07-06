@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "newsletter_subscriptions",
+  "info": {
+    "singularName": "newsletter-subscription",
+    "pluralName": "newsletter-subscriptions",
+    "displayName": "Newsletter Subscription",
+    "description": "Email subscriptions for newsletters and updates"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "email": {
+      "type": "email",
+      "required": true,
+      "unique": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "homepage",
+        "tour-page",
+        "merch-page",
+        "coming-soon",
+        "footer",
+        "other"
+      ],
+      "default": "homepage"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "subscribedAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "unsubscribedAt": {
+      "type": "datetime"
+    },
+    "preferences": {
+      "type": "json",
+      "description": "User preferences for types of emails to receive"
+    },
+    "ipAddress": {
+      "type": "string"
+    },
+    "userAgent": {
+      "type": "text"
+    }
+  }
+} 

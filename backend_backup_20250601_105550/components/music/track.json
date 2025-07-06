@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_music_tracks",
+  "info": {
+    "displayName": "Track",
+    "description": "Individual song track"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "duration": {
+      "type": "string"
+    },
+    "trackNumber": {
+      "type": "integer"
+    },
+    "isExplicit": {
+      "type": "boolean",
+      "default": false
+    },
+    "audioPreview": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "audios"
+      ]
+    }
+  }
+}

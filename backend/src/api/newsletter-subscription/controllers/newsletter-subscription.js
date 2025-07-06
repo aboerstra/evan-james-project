@@ -289,5 +289,59 @@ module.exports = createCoreController('api::newsletter-subscription.newsletter-s
       message: 'Please check your email to complete your subscription',
       verified: false
     };
+  },
+
+  // Admin route to test Mautic connection
+  async testMauticConnection(ctx) {
+    try {
+      const mauticIntegration = strapi.service('api::newsletter-subscription.mautic-integration');
+      const result = await mauticIntegration.testConnection();
+      
+      return {
+        success: result.success,
+        message: result.success ? 'Mautic connection successful' : 'Mautic connection failed',
+        details: result
+      };
+    } catch (error) {
+      return ctx.badRequest('Error testing Mautic connection: ' + error.message);
+    }
+  },
+
+  // Admin route to manually sync a subscription to Mautic
+  async syncToMautic(ctx) {
+    const { id } = ctx.params;
+    
+    if (!id) {
+      return ctx.badRequest('Subscription ID is required');
+    }
+
+    try {
+      const newsletterService = strapi.service('api::newsletter-subscription.newsletter-subscription');
+      const result = await newsletterService.syncToMautic(id);
+      
+      return {
+        success: result.success,
+        message: result.success ? 'Subscription synced to Mautic successfully' : 'Failed to sync to Mautic',
+        details: result
+      };
+    } catch (error) {
+      return ctx.badRequest('Error syncing to Mautic: ' + error.message);
+    }
+  },
+
+  // Admin route to bulk sync all subscriptions to Mautic
+  async bulkSyncToMautic(ctx) {
+    try {
+      const newsletterService = strapi.service('api::newsletter-subscription.newsletter-subscription');
+      const result = await newsletterService.bulkSyncToMautic();
+      
+      return {
+        success: true,
+        message: `Bulk sync completed. ${result.synced} synced, ${result.failed} failed.`,
+        details: result
+      };
+    } catch (error) {
+      return ctx.badRequest('Error during bulk sync: ' + error.message);
+    }
   }
 }));

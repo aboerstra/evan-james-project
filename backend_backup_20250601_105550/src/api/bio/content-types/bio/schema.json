@@ -1,0 +1,71 @@
+{
+  "kind": "singleType",
+  "collectionName": "bios",
+  "info": {
+    "singularName": "bio",
+    "pluralName": "bios",
+    "displayName": "Biography",
+    "description": "Artist biography information"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "shortBio": {
+      "type": "text",
+      "required": true
+    },
+    "fullBio": {
+      "type": "richtext",
+      "required": true
+    },
+    "headshot": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "headerImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "galleryImages": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageNotes": {
+      "type": "text",
+      "default": "Headshot: 800x800px (square) or 600x800px (portrait). Header Image: 1920x600px landscape for about page hero banner. Gallery Images: Various sizes for the visual portfolio section. Minimum 1200x400px. Format: JPG or PNG. Should be high-resolution and suitable for web use."
+    },
+    "socialLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "links.social-link"
+    },
+    "pressKitFile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files"
+      ]
+    },
+    "metaTitle": {
+      "type": "string",
+      "default": "About Evan James - Official Biography"
+    },
+    "metaDescription": {
+      "type": "text"
+    }
+  }
+}

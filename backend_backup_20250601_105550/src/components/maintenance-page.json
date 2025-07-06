@@ -1,0 +1,54 @@
+{
+  "collectionName": "components_page_settings_maintenance_pages",
+  "info": {
+    "displayName": "Maintenance Page",
+    "description": "Configure the content for the maintenance page"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Site Under Maintenance"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "We'll be back soon"
+    },
+    "message": {
+      "type": "richtext",
+      "default": "We're currently performing some scheduled maintenance. We'll be back online shortly!"
+    },
+    "backgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "estimatedCompletionTime": {
+      "type": "datetime"
+    },
+    "showSocialMedia": {
+      "type": "boolean",
+      "default": true
+    },
+    "contactEmail": {
+      "type": "email"
+    },
+    "metaTitle": {
+      "type": "string",
+      "default": "Under Maintenance - Evan James Official"
+    },
+    "metaDescription": {
+      "type": "text",
+      "default": "Evan James Official website is currently under maintenance. We'll be back online shortly!"
+    }
+  }
+}

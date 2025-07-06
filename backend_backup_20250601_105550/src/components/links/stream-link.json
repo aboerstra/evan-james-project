@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_links_stream_links",
+  "info": {
+    "displayName": "Stream Link",
+    "description": "Links to streaming platforms"
+  },
+  "options": {},
+  "attributes": {
+    "platform": {
+      "type": "enumeration",
+      "enum": [
+        "Spotify",
+        "Apple Music",
+        "YouTube",
+        "SoundCloud",
+        "Amazon Music",
+        "Tidal",
+        "Deezer",
+        "Bandcamp"
+      ],
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

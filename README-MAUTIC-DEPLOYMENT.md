@@ -1,5 +1,56 @@
 # Mautic Deployment Guide for EC2
 
+## Status: ✅ COMPLETED
+
+Mautic has been successfully installed and configured on the EC2 server.
+
+### Access Information
+- **URL**: https://mautic.evanjamesofficial.com
+- **Status**: Ready for setup wizard
+- **SSL**: ✅ Enabled (Let's Encrypt)
+
+### Database Credentials
+- **Database Name**: mautic
+- **Username**: mautic
+- **Password**: mautic123
+- **Host**: localhost
+
+### Next Steps
+1. Visit https://mautic.evanjamesofficial.com to complete the Mautic setup wizard
+2. Use the database credentials above during setup
+3. Create your admin account
+4. Configure your marketing automation workflows
+
+### Installed Plugins & Features
+- **Custom Objects Plugin** (acquia/mc-cs-plugin-custom-objects) - ✅ Installed
+  - Adds custom objects feature to Mautic
+  - Located in: `/home/ubuntu/mautic/plugins/CustomObjectsBundle/`
+  - Will be available in the Mautic admin interface after completing the setup wizard
+
+- **SMS & Twilio Integration** - ✅ Ready
+  - Twilio SDK installed and configured
+  - Built-in SMS functionality available in Mautic
+  - Ready for Twilio API configuration in admin panel
+
+### Technical Details
+- **Server**: 13.223.13.92
+- **PHP Version**: 8.2.29 (compatible with Mautic)
+- **PHP Memory Limit**: 512M (optimized for Mautic)
+- **PHP Max Execution Time**: 300 seconds
+- **PHP Max Input Vars**: 3000
+- **PHP Upload Limits**: 100M
+- **Web Server**: Nginx
+- **Database**: MySQL 8.0
+- **SSL Certificate**: Let's Encrypt (auto-renewal enabled)
+
+### Important Notes
+- Mautic files are located in `/home/ubuntu/mautic/`
+- Nginx configuration: `/etc/nginx/sites-enabled/mautic.evanjamesofficial.com`
+- Database credentials saved in: `/tmp/mautic-db-credentials.txt`
+- SSL certificate auto-renews via certbot
+
+---
+
 This guide provides instructions for deploying Mautic marketing automation platform on your EC2 server alongside your existing Evan James website.
 
 ## Overview
@@ -270,3 +321,150 @@ After successful deployment:
 Your Mautic installation will be accessible at:
 - **HTTP**: `http://mautic.evanjamesofficial.com`
 - **HTTPS**: `https://mautic.evanjamesofficial.com` (if SSL was configured)
+
+## SMS and Twilio Integration Setup
+
+### Prerequisites for SMS Setup
+1. **Twilio Account**: Sign up at [twilio.com](https://www.twilio.com)
+2. **Twilio Phone Number**: Purchase a phone number from Twilio console
+3. **Messaging Service**: Create a messaging service in Twilio (recommended)
+
+### Twilio Account Setup
+
+1. **Create Twilio Account**:
+   - Go to [twilio.com](https://www.twilio.com) and sign up
+   - Verify your account and phone number
+
+2. **Get Account Credentials**:
+   - **Account SID**: Found in Twilio Console Dashboard
+   - **Auth Token**: Found in Twilio Console Dashboard (click to reveal)
+
+3. **Create Messaging Service** (Recommended):
+   - Go to Messaging → Services in Twilio Console
+   - Click "Create Messaging Service"
+   - Choose "Send marketing messages and notifications"
+   - Add your Twilio phone number to the service
+   - Copy the **Messaging Service SID**
+
+### Mautic SMS Configuration
+
+After completing the Mautic setup wizard:
+
+1. **Access SMS Configuration**:
+   - Login to Mautic admin panel
+   - Go to **Settings** → **Configuration** → **Text Messages**
+
+2. **Configure Twilio Integration**:
+   - **Service to send text messages**: Select "Twilio"
+   - **Username**: Enter your Twilio **Account SID**
+   - **Password**: Enter your Twilio **Auth Token**
+   - **Messaging Service SID**: Enter your Twilio **Messaging Service SID**
+   - **Sending phone number**: Your Twilio phone number (format: +1234567890)
+
+3. **Test Configuration**:
+   - Save the configuration
+   - Send a test SMS to verify setup
+
+### SMS Campaign Setup
+
+1. **Create SMS Campaign**:
+   - Go to **Campaigns** → **New Campaign**
+   - Choose "Campaign Builder"
+   - Add SMS action to your campaign flow
+
+2. **Create SMS Messages**:
+   - Go to **Channels** → **Text Messages** → **New**
+   - Create your SMS content (160 characters recommended)
+   - Use tokens like `{contactfield=firstname}` for personalization
+
+3. **SMS in Forms**:
+   - Add phone number field to your forms
+   - Set up SMS follow-up actions
+
+### Advanced SMS Features
+
+1. **SMS Replies and Keywords**:
+   - Configure webhook URL in Twilio: `https://mautic.evanjamesofficial.com/sms/twilio/callback`
+   - Set up keyword responses in Mautic
+
+2. **SMS Segments**:
+   - Create segments based on SMS engagement
+   - Filter contacts who have opted in for SMS
+
+3. **Compliance**:
+   - Always include opt-out instructions (e.g., "Reply STOP to unsubscribe")
+   - Respect SMS marketing regulations in your region
+
+### Webhook Configuration (Optional)
+
+For SMS replies and delivery status:
+
+1. **In Twilio Console**:
+   - Go to Phone Numbers → Manage → Active numbers
+   - Click on your SMS-enabled number
+   - Set webhook URL: `https://mautic.evanjamesofficial.com/sms/twilio/callback`
+   - Set HTTP method to POST
+
+2. **For Messaging Service**:
+   - Go to Messaging → Services → Your Service
+   - Set Inbound Request URL: `https://mautic.evanjamesofficial.com/sms/twilio/callback`
+
+### Troubleshooting SMS Issues
+
+**Common Issues**:
+
+1. **SMS not sending**:
+   - Verify Twilio credentials are correct
+   - Check Twilio account balance
+   - Ensure phone number is verified in Twilio
+
+2. **Invalid phone number format**:
+   - Use international format: +1234567890
+   - Ensure phone numbers in contacts are properly formatted
+
+3. **Webhook not working**:
+   - Verify webhook URL is accessible
+   - Check Mautic logs: `/home/ubuntu/mautic/var/logs/`
+   - Ensure SSL certificate is valid
+
+### SMS Best Practices
+
+1. **Content**:
+   - Keep messages under 160 characters
+   - Include clear call-to-action
+   - Always provide opt-out instructions
+
+2. **Timing**:
+   - Respect time zones
+   - Avoid sending during late hours
+   - Consider frequency caps
+
+3. **Compliance**:
+   - Obtain explicit consent before sending SMS
+   - Honor opt-out requests immediately
+   - Keep records of consent
+
+### Cost Considerations
+
+- **Twilio Pricing**: Pay per SMS sent (varies by country)
+- **Phone Number**: Monthly fee for Twilio phone number
+- **Messaging Service**: No additional cost, but recommended for deliverability
+
+### Integration Examples
+
+**SMS Welcome Series**:
+```
+Campaign: New Contact → Wait 1 hour → Send Welcome SMS → Wait 1 day → Send Follow-up SMS
+```
+
+**Abandoned Cart SMS**:
+```
+Campaign: Form Submission → Wait 2 hours → Check if purchase made → If no, send SMS reminder
+```
+
+**Event Reminders**:
+```
+Campaign: Event Registration → Wait until 1 day before → Send SMS reminder
+```
+
+This SMS integration allows you to create powerful multi-channel marketing campaigns combining email, SMS, and web tracking for maximum engagement.

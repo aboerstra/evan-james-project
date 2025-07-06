@@ -1,0 +1,14 @@
+# Copy and paste these lines into your backend/.env file:
+
+# Mautic Integration Configuration
+MAUTIC_INTEGRATION_ENABLED=true
+MAUTIC_BASE_URL=https://mautic.evanjamesofficial.com
+MAUTIC_API_USERNAME=strapi-api
+MAUTIC_API_PASSWORD=your_mautic_password_here
+MAUTIC_API_TIMEOUT=10000
+
+# Instructions:
+# 1. Replace "your_mautic_password_here" with the actual password for your Mautic API user
+# 2. If you used a different username than "strapi-api", update MAUTIC_API_USERNAME accordingly
+# 3. Save the .env file and restart your Strapi backend
+# 4. Test the connection using: GET /api/newsletter-subscriptions/mautic/test-connection

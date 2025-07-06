@@ -1,0 +1,104 @@
+{
+  "kind": "collectionType",
+  "collectionName": "merchandise",
+  "info": {
+    "singularName": "merchandise",
+    "pluralName": "merchandises",
+    "displayName": "Merchandise",
+    "description": "Store products and merchandise items"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageNotes": {
+      "type": "text",
+      "default": "Product images: Main image should be 1200x1200px (square). Additional images can be 1200x1200px or 1200x800px. Format: JPG or PNG. High quality for e-commerce display."
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "apparel",
+        "vinyl",
+        "cd",
+        "accessories",
+        "digital",
+        "other"
+      ],
+      "required": true
+    },
+    "sizes": {
+      "type": "json",
+      "description": "Available sizes for apparel items"
+    },
+    "variants": {
+      "type": "component",
+      "repeatable": true,
+      "component": "merchandise.product-variant"
+    },
+    "inStock": {
+      "type": "boolean",
+      "default": true
+    },
+    "stockQuantity": {
+      "type": "integer",
+      "default": 0
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "weight": {
+      "type": "decimal",
+      "description": "Weight in grams for shipping calculations"
+    },
+    "dimensions": {
+      "type": "json",
+      "description": "Product dimensions for shipping"
+    },
+    "sku": {
+      "type": "string",
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "salePrice": {
+      "type": "decimal",
+      "description": "Sale price if item is on sale"
+    },
+    "isOnSale": {
+      "type": "boolean",
+      "default": false
+    },
+    "metaTitle": {
+      "type": "string"
+    },
+    "metaDescription": {
+      "type": "text"
+    }
+  }
+} 

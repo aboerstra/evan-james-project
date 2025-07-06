@@ -52,6 +52,24 @@
     },
     "userAgent": {
       "type": "text"
+    },
+    "mauticContactId": {
+      "type": "integer",
+      "description": "Mautic contact ID for this subscription"
+    },
+    "mauticSyncedAt": {
+      "type": "datetime",
+      "description": "Last time this subscription was synced to Mautic"
+    },
+    "mauticSyncStatus": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "synced",
+        "failed",
+        "unsubscribed"
+      ],
+      "description": "Status of Mautic synchronization"
     }
   }
-} 
+}

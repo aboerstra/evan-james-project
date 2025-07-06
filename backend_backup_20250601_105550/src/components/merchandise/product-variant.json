@@ -1,0 +1,54 @@
+{
+  "collectionName": "components_merchandise_product_variants",
+  "info": {
+    "displayName": "Product Variant",
+    "description": "Product variations like size, color, etc."
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "description": "Variant name (e.g., 'Small Black', 'Large White')"
+    },
+    "size": {
+      "type": "enumeration",
+      "enum": [
+        "XS",
+        "S", 
+        "M",
+        "L",
+        "XL",
+        "XXL",
+        "One Size"
+      ]
+    },
+    "color": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string",
+      "unique": true
+    },
+    "price": {
+      "type": "decimal",
+      "description": "Override price for this variant"
+    },
+    "stockQuantity": {
+      "type": "integer",
+      "default": 0
+    },
+    "isAvailable": {
+      "type": "boolean",
+      "default": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "description": "Specific image for this variant"
+    }
+  }
+} 

@@ -36,5 +36,33 @@ module.exports = {
         middlewares: [],
       },
     },
+    // Mautic integration routes (admin only)
+    {
+      method: 'GET',
+      path: '/newsletter-subscriptions/mautic/test-connection',
+      handler: 'newsletter-subscription.testMauticConnection',
+      config: {
+        policies: ['admin::isAuthenticatedAdmin'],
+        middlewares: [],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/newsletter-subscriptions/:id/sync-to-mautic',
+      handler: 'newsletter-subscription.syncToMautic',
+      config: {
+        policies: ['admin::isAuthenticatedAdmin'],
+        middlewares: [],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/newsletter-subscriptions/bulk-sync-to-mautic',
+      handler: 'newsletter-subscription.bulkSyncToMautic',
+      config: {
+        policies: ['admin::isAuthenticatedAdmin'],
+        middlewares: [],
+      },
+    },
   ],
 };

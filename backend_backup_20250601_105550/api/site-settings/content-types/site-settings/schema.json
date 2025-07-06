@@ -1,0 +1,40 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-settings",
+    "pluralName": "site-settings",
+    "displayName": "Site Settings",
+    "description": "Control site-wide settings including maintenance mode and coming soon page"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "siteStatus": {
+      "type": "enumeration",
+      "enum": [
+        "live",
+        "coming-soon",
+        "maintenance"
+      ],
+      "default": "live",
+      "required": true
+    },
+    "scheduledGoLiveDate": {
+      "type": "datetime",
+      "description": "Date and time when the site will automatically go live"
+    },
+    "comingSoon": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page-settings.coming-soon-page"
+    },
+    "maintenance": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page-settings.maintenance-page"
+    }
+  }
+}

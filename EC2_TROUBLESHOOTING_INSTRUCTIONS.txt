@@ -1,0 +1,80 @@
+# EC2 Troubleshooting Instructions
+
+Since you're having trouble finding the scripts on your EC2 server, here's a direct approach to troubleshoot the 502 and 403 errors:
+
+## Option 1: Copy and Paste the Script Directly
+
+1. SSH into your EC2 server:
+   ```
+   ssh -i your-key.pem ubuntu@evanjamesofficial.com
+   ```
+
+2. Create a new script file on the EC2 server:
+   ```
+   nano troubleshoot.sh
+   ```
+
+3. Copy and paste the ENTIRE content of the `scripts/ec2-troubleshoot.sh` file from your local machine into the nano editor on the EC2 server.
+
+4. Save the file (Ctrl+O, then Enter) and exit nano (Ctrl+X).
+
+5. Make the script executable:
+   ```
+   chmod +x troubleshoot.sh
+   ```
+
+6. Run the script with sudo to ensure it can check and fix all issues:
+   ```
+   sudo ./troubleshoot.sh
+   ```
+
+## Option 2: View the Script in VSCode and Copy Manually
+
+1. Open the `scripts/ec2-troubleshoot.sh` file in VSCode.
+2. Select all content (Ctrl+A) and copy it (Ctrl+C).
+3. Paste it into a new file on your EC2 server as described in Option 1.
+
+## Option 3: Use SCP to Upload the Script
+
+If you have SSH access configured correctly, you can upload the script directly:
+
+```
+scp -i your-key.pem scripts/ec2-troubleshoot.sh ubuntu@evanjamesofficial.com:~/troubleshoot.sh
+```
+
+Then SSH into your server and run:
+```
+sudo chmod +x ~/troubleshoot.sh
+sudo ~/troubleshoot.sh
+```
+
+## What the Script Does
+
+The troubleshooting script will:
+
+1. Set up swap space if needed (to prevent memory issues)
+2. Check PM2 processes and restart them if needed
+3. Verify application directory structure and permissions
+4. Examine Nginx configuration for common issues
+5. Check for port availability and service status
+6. Provide detailed logs and next steps for resolution
+
+After running the script, check the log file it creates for detailed information about any issues it found and fixed.
+
+## Common Issues and Solutions
+
+### For 502 Bad Gateway (Backend API):
+
+- Backend service not running or crashed
+- Incorrect Nginx proxy configuration
+- Missing or incorrect backend environment variables
+- Database connection issues
+
+### For 403 Forbidden (Frontend):
+
+- File permission issues (fixed by the script)
+- Incorrect Nginx root directory configuration
+- Missing or incomplete frontend build
+- Incorrect file ownership
+
+The script will attempt to fix these issues automatically when run with sudo.

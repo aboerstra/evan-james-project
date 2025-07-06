@@ -1,0 +1,219 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-settings",
+    "pluralName": "site-settings-config",
+    "displayName": "Site Settings",
+    "description": "Global site configuration and settings"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "siteName": {
+      "type": "string",
+      "default": "Evan James"
+    },
+    "tagline": {
+      "type": "string",
+      "default": "Official Website"
+    },
+    "siteStatus": {
+      "type": "enumeration",
+      "enum": [
+        "live",
+        "coming-soon",
+        "maintenance"
+      ],
+      "default": "live"
+    },
+    "scheduledGoLiveDate": {
+      "type": "datetime"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "footerText": {
+      "type": "string",
+      "default": "© 2025 Evan James. All rights reserved."
+    },
+    "contactEmail": {
+      "type": "email"
+    },
+    "contactPhone": {
+      "type": "string"
+    },
+    "metaTitle": {
+      "type": "string"
+    },
+    "metaDescription": {
+      "type": "text"
+    },
+    "analyticsCode": {
+      "type": "text",
+      "description": "Google Analytics or other tracking code"
+    },
+    "customCSS": {
+      "type": "text",
+      "description": "Custom CSS for site-wide styling"
+    },
+    "customJS": {
+      "type": "text",
+      "description": "Custom JavaScript for site-wide functionality"
+    },
+    "comingSoonTitle": {
+      "type": "string",
+      "default": "Coming Soon"
+    },
+    "comingSoonSubtitle": {
+      "type": "string",
+      "default": "We're launching soon"
+    },
+    "comingSoonDescription": {
+      "type": "text",
+      "default": "Our new website is on its way. Stay tuned for something amazing."
+    },
+    "comingSoonCountdownDate": {
+      "type": "datetime"
+    },
+    "comingSoonShowCountdown": {
+      "type": "boolean",
+      "default": true
+    },
+    "comingSoonShowEmailSignup": {
+      "type": "boolean",
+      "default": true
+    },
+    "comingSoonEmailSignupText": {
+      "type": "string",
+      "default": "Get notified when we launch"
+    },
+    "comingSoonShowSocialMedia": {
+      "type": "boolean",
+      "default": true
+    },
+    "comingSoonBackgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "comingSoonLogo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "comingSoonBackgroundPattern": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "description": "Background pattern for the coming soon page"
+    },
+    "heroTitle": {
+      "type": "string",
+      "default": "evan james"
+    },
+    "heroSubtitle": {
+      "type": "string",
+      "default": "independent pop artist"
+    },
+    "heroDescription": {
+      "type": "text",
+      "default": "creating cinematic soundscapes with introspective lyrics"
+    },
+    "heroButtonText": {
+      "type": "string",
+      "default": "listen now"
+    },
+    "heroSecondaryButtonText": {
+      "type": "string",
+      "default": "learn more"
+    },
+    "heroBackgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "aboutTitle": {
+      "type": "string",
+      "default": "about evan james"
+    },
+    "aboutShortDescription": {
+      "type": "text",
+      "default": "evan james is an independent pop artist based in new york city, creating cinematic soundscapes with introspective lyrics that explore themes of identity, expectation, and transformation."
+    },
+    "aboutFullDescription": {
+      "type": "text",
+      "default": "his debut ep \"tainted blue\" represents his artistic vision that balances commercial accessibility with artistic integrity, drawing inspiration from artists like troye sivan, lorde, and frank ocean."
+    },
+    "aboutButtonText": {
+      "type": "string",
+      "default": "read more"
+    },
+    "aboutBackgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "contactHeaderImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "description": "Header image for the contact page (1920x600px recommended)"
+    },
+    "merchHeaderImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "description": "Header image for the merchandise page (1920x600px recommended)"
+    },
+    "pressHeaderImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "description": "Header image for the press page (1920x600px recommended)"
+    },
+    "videoSectionTitle": {
+      "type": "string",
+      "default": "cool skin — official visual"
+    },
+    "videoSectionDescription": {
+      "type": "text",
+      "default": "directed by sarah winters. shot on location in new york city, winter 2025."
+    },
+    "newsletterTitle": {
+      "type": "string",
+      "default": "stay connected"
+    },
+    "newsletterDescription": {
+      "type": "text",
+      "default": "get the latest updates on new releases, tour dates, and exclusive content."
+    },
+    "newsletterButtonText": {
+      "type": "string",
+      "default": "subscribe"
+    }
+  }
+} 
